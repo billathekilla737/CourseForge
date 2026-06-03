@@ -1,0 +1,11 @@
+# Never commit credentials or student data
+canvas.token
+*.token
+canvas.config.*.json
+canvas.state.*.json
+canvas.project.*.json
+canvas.*.state.json
+canvas-admin-audit.log
+grading/
+canvas-export/
+private/

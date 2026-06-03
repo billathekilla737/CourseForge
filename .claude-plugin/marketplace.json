@@ -1,0 +1,14 @@
+{
+  "name": "garris-canvas-tools",
+  "owner": { "name": "Zack Garris" },
+  "metadata": {
+    "description": "Canvas LMS course-building tools for instructors (Claude Code plugins)."
+  },
+  "plugins": [
+    {
+      "name": "notion-to-canvas",
+      "source": "./plugins/notion-to-canvas",
+      "description": "Notion to Canvas course builder + generate-and-place content. Content only; never reads student data."
+    }
+  ]
+}
