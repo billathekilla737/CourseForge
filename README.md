@@ -25,7 +25,7 @@ cleanly for any Canvas school after a few setting tweaks.
 1. Push this folder to a git repo (GitHub, public or a private org repo).
 2. In Claude Code, add the marketplace and install:
    ```
-   /plugin marketplace add REPLACE-ME/garris-canvas-tools
+   /plugin marketplace add billathekilla737/garris-canvas-tools
    /plugin install notion-to-canvas@garris-canvas-tools
    ```
 3. Reload, then the skill is available (namespaced) as `notion-to-canvas`.
