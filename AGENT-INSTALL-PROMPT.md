@@ -6,6 +6,10 @@ below. Their own agent will install the skill for them.
 
 > Works in **Claude Code** only (it needs file + shell access). It does **not** work
 > in the claude.ai website. After it finishes, they must fully restart Claude Code.
+>
+> **What it does:** builds Canvas *course content* (pages, modules, assignments,
+> quizzes, syllabus). It **never reads student rosters, grades, or submissions** - the
+> skill's policy refuses that outright.
 
 ---
 
@@ -47,7 +51,8 @@ STEP 4 - Verify. Confirm that SKILL.md now exists at the target path above, and 
 
 STEP 5 - Report. Tell me it is installed, and that I must FULLY CLOSE and reopen Claude
   Code for it to load. After I restart, I can test by asking: "Do you have the
-  notion-to-canvas skill?"
+  notion-to-canvas skill, and what is it allowed to do?" (It should confirm it builds
+  course content and does not read student data.)
 
 IMPORTANT RULES:
   - Do NOT ask me for, or set up, any Canvas token, password, or course settings right

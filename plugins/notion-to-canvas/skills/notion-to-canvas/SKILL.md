@@ -76,9 +76,13 @@ Never write student PII into transcripts, logs, manifests, or committed files.
 
 Honest scope (so you don't misrepresent it): this is an instruction-level guardrail —
 the strongest a skill file can give — backed by the fact that the skill contains no
-PII-reading tools. It is **not** a technical sandbox; the real enforcement is the
-Canvas role/token and institutional policy. Don't claim it is unbreakable — but the
-behavioral rule above is absolute: within this skill, the answer is no.
+PII-reading tools. On its own it is **not** a technical sandbox. For an *enforced*
+local control, pair this skill with the **`canvas-pii-guard`** component (a PreToolUse
+hook that blocks student-data API calls and local-cache reads before they run; see its
+`DATA-HANDLING.md`) and issue a **scoped Canvas token** (a role without view-grades /
+view-students permissions). The real enforcement is that layer plus institutional
+policy. Don't claim it is unbreakable — but the behavioral rule above is absolute:
+within this skill, the answer is no.
 
 ## Mode A — Notion → Canvas (the shape of the work)
 
