@@ -21,9 +21,14 @@ setting tweaks.
   CLI and IDE extensions work identically. Custom skills/plugins are not available in
   the claude.ai web app or Claude Desktop (the chat app).
 - **PowerShell** (Windows PowerShell 5.1 is fine).
-- **Python 3** — powers the automated **PPTX ADA remediation** and the HTML restyle
-  pipeline. Everything else works without it; the installer sets up `python-pptx` for
-  you when Python is present.
+- **Python 3** — powers automated **PPTX / DOCX ADA remediation**, **PDF triage**, and the
+  HTML restyle pipeline. Everything else works without it; the installer sets up
+  `python-pptx`, `python-docx` and `pypdf` when a real Python is present.
+  **Windows caveat:** a stock Windows 11 has an App Execution Alias stub at
+  `WindowsApps\python.exe` that looks like Python but isn't. The installer detects it and
+  says so; install the real thing with
+  `winget install --id Python.Python.3.12`, then re-run the install line **in a new
+  terminal** (an open shell keeps the stale `PATH`).
 - A **Canvas API access token** for your own account, plus your course base URL + id.
 - **Optional**, only for the Notion-import build path: a connected **Notion MCP** connector.
 
@@ -38,14 +43,20 @@ irm https://raw.githubusercontent.com/billathekilla737/CourseForge/main/bootstra
 That's the whole install: it uses the Claude Code plugin system when the CLI is
 available, otherwise downloads this repo and runs the script installer — either way
 **both** plugins land (`courseforge` builds courses; `canvas-pii-guard` is the local
-block that enforces the no-student-data guarantee), the guard hooks are registered,
-`python-pptx` is set up, and the guard test suite runs. Safe to re-run any time —
-re-running is also how you **update**.
+block that enforces the no-student-data guarantee), the guard hooks are registered, the
+document libraries are set up, and the guard test suite runs. Watch for **ALL TESTS
+PASSED**. Safe to re-run any time — re-running is also how you **update**.
 
 Then: **fully restart Claude Code** (approve the trust prompt if one appears), use
-**Open Folder** to open `Documents\canvas-work` (create it if it's new — it's simply
-where your Canvas connection gets saved; always open the same folder), and say
+**Open Folder** to open `%USERPROFILE%\Documents\canvas-work` (create it if it's new —
+it's simply where your Canvas connection gets saved; always open the same folder), and say
 *"set up my Canvas."* PowerShell is never needed again after the install line.
+
+> The install prints that folder's absolute path when it finishes. If OneDrive backs up
+> your Documents you effectively have two — `%USERPROFILE%\Documents` and
+> `%USERPROFILE%\OneDrive\Documents`. Both resolve, but prefer the **local** one: your
+> Canvas token is saved there and it carries your full account permissions, so it should
+> not sync to the cloud.
 
 **Verify it worked** (after restart) — ask Claude:
 > *"Is canvas-pii-guard active, and do you have the courseforge skill?"*
@@ -90,6 +101,18 @@ saves the token correctly, writes the config, protects it with `.gitignore`, and
 tests the connection, printing your course name when it works. No file paths, no
 file-extension headaches. To get the token: **Canvas → Account → Settings → New
 Access Token**, then paste it when asked.
+
+The token is read with `Read-Host -AsSecureString`, so it is typed hidden and **never
+enters the chat transcript** — an assistant should launch the setup in its own window
+rather than asking you to paste a token into a conversation. Only a masked prefix and a
+length are ever echoed back. Already saved it loose as `canvas.token.txt`,
+`Canvas Token.txt`, or a pasted `.rtf`? Setup finds it, reuses it, and tidies the stray
+file away.
+
+**Consider a scoped token.** For content-only work (remediation, restyling, building
+pages/quizzes), a Canvas role *without* view-grades / view-students makes student PII
+unfetchable at the source — the strongest version of the guarantee below, since it doesn't
+depend on hooks at all.
 
 **By hand (if you prefer):**
 1. Generate a token: **Canvas → Account → Settings → New Access Token**. Save it as a
